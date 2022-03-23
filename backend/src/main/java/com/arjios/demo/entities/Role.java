@@ -2,16 +2,27 @@ package com.arjios.demo.entities;
 
 import java.io.Serializable;
 
-public class Roles implements Serializable {
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+
+@Entity
+@Table(name="tb_roles")
+public class Role implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String authority;
 	
-	public Roles() {
+	public Role() {
 	}
 
-	public Roles(Long id, String authority) {
+	public Role(Long id, String authority) {
 		this.id = id;
 		this.authority = authority;
 	}
@@ -48,7 +59,7 @@ public class Roles implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Roles other = (Roles) obj;
+		Role other = (Role) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
