@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.arjios.demo.dto.UserDTO;
 import com.arjios.demo.entities.User;
 import com.arjios.demo.repositories.UserRepository;
+import com.arjios.demo.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class UserService {
@@ -27,8 +28,7 @@ public class UserService {
 	@Transactional(readOnly = true)
 	public UserDTO findById(Long id) {
 		Optional<User> object = userRepository.findById(id);
-		User entity = object.get();
-//		User user = object.orElseThrow(() -> new ResourceNotFoundException("Usuário não existe: " + id));
+		User entity = object.orElseThrow(() -> new ResourceNotFoundException("Usuário não existe: " + id));
 		return new UserDTO(entity);
 	}
 }
