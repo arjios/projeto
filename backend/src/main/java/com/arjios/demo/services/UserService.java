@@ -14,8 +14,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.arjios.demo.dto.RoleDTO;
 import com.arjios.demo.dto.UserDTO;
+import com.arjios.demo.dto.UserInsertDTO;
+import com.arjios.demo.entities.Role;
 import com.arjios.demo.entities.User;
+import com.arjios.demo.repositories.RoleRepository;
 import com.arjios.demo.repositories.UserRepository;
 import com.arjios.demo.services.exceptions.ResourceNotFoundException;
 
@@ -31,7 +35,10 @@ public class UserService implements UserDetailsService {
 	private UserRepository userRepository;
 	
 	@Autowired
-	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	private RoleRepository roleRepository;
+	
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
 	
 	
 	@Transactional(readOnly = true)
@@ -45,6 +52,42 @@ public class UserService implements UserDetailsService {
 		Optional<User> object = userRepository.findById(id);
 		User entity = object.orElseThrow(() -> new ResourceNotFoundException("Usuário não existe: " + id));
 		return new UserDTO(entity);
+	}
+
+	@Transactional
+	public UserDTO insert(UserInsertDTO dto) {
+		User user = new User();
+		copyUserToDTO(user, dto);
+		user.setPassword(passwordEncoder.encode(dto.getPassword()));
+		user = userRepository.save(user);
+		return new UserDTO(user);
+	}
+
+	@Transactional
+	public UserDTO update(Long id, UserDTO dto) {
+		Optional<User> object = userRepository.findById(id);
+		User user = object.orElseThrow(() -> new ResourceNotFoundException("Usuário não existe: " + id));
+		user.setName(dto.getName());
+		user.setEmail(dto.getEmail());
+		user = userRepository.save(user);
+		return new UserDTO(user);
+	}
+	
+	@Transactional
+	public void delete(Long id) {
+		Optional<User> object = userRepository.findById(id);
+		User user = object.orElseThrow(() -> new ResourceNotFoundException("Usuário não existe: " + id));
+		userRepository.deleteById(user.getId());
+	}
+	
+	private void copyUserToDTO(User user, UserInsertDTO dto) {
+		user.setName(dto.getName());
+		user.setEmail(dto.getEmail());
+		user.getRoles().clear();
+		for(RoleDTO roleDTO : dto.getRoles()) {
+			Role role = roleRepository.getOne(roleDTO.getId());
+			user.getRoles().add(role);
+		}
 	}
 
 	@Override
