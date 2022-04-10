@@ -2,12 +2,15 @@ package com.arjios.demo.dto;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotBlank;
+
 import com.arjios.demo.entities.Role;
 
 public class RoleDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Long id;
+	@NotBlank(message = "Campo não pode estar em branco")
 	private String authority;
 	
 	public RoleDTO() {

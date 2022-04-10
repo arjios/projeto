@@ -4,13 +4,18 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+
 import com.arjios.demo.entities.User;
 
 public class UserDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Long id;
+	@NotBlank(message = "Campo não pode estar em branco")
 	private String name;
+	@Email(message = "Campo deve ter um email valido")
 	private String email;
 	
 	Set<RoleDTO> roles = new HashSet<>();
