@@ -40,6 +40,9 @@ public class UserService implements UserDetailsService {
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 	
+	@Autowired
+	private AuthService authService;
+	
 	
 	@Transactional(readOnly = true)
 	public Page<UserDTO> findAll(Pageable pageable) {
@@ -49,6 +52,8 @@ public class UserService implements UserDetailsService {
 	
 	@Transactional(readOnly = true)
 	public UserDTO findById(Long id) {
+		authService.validateSelfOrAdmin(id);
+		
 		Optional<User> object = userRepository.findById(id);
 		User entity = object.orElseThrow(() -> new ResourceNotFoundException("Usuário não existe: " + id));
 		return new UserDTO(entity);
