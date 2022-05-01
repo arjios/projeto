@@ -1,0 +1,26 @@
+.banner-container {
+    display: flexbox;
+    margin-top: 80px;
+    margin-left: 70px;
+}
+
+.banner-title {
+    margin-left: 26px;
+    font-weight: bold;
+    font-size: 48px;
+    color: #FFF;
+}
+
+.banner-subtitle {
+    margin-left: 26px;
+    margin-top: 19px;
+    font-weight: 400;
+    font-size: 22px;;
+    color: #FFF;
+}
+
+.banner-desenho {
+    margin-top: 51px;
+    height: 265px;
+    width: 382px;
+}

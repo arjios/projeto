@@ -1,8 +1,13 @@
-import './App.css';
+import Navbar from "./components/Navbar";
+import "./App.css";
+import Banner from "components/Banner";
 
 function App() {
   return (
-    <h1>Projeto MovieFlix</h1>
+    <>
+      <Navbar />
+      <Banner />
+    </>
   );
 }
 

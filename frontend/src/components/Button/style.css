@@ -1,0 +1,14 @@
+
+.navbar-button {
+    font-weight: bold;
+    font-size: 14px;
+    height: 30px;
+    width: 100px;
+    margin-top: 16px;
+    margin-right: 40px;
+    border: 1px solid #000000;
+    box-sizing: border-box;
+    border-radius: 10px;
+    background-color: #FFC700;
+    visibility:hidden;
+}
